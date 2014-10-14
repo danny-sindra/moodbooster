@@ -2,13 +2,19 @@ package com.moodbooster.testbedapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.WallpaperManager;
+import android.content.Intent;
 
 import java.io.IOException;
 import java.util.Calendar;
+
+import edu.cornell.pam.PamActivity;
 
 
 public class TestbedAppActivity extends Activity {
@@ -67,5 +73,34 @@ public class TestbedAppActivity extends Activity {
 	    
 
     }   //end oncreate
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_pam:
+                openPAM();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    /**
+     * Open the PAM activity
+     */
+    public void openPAM() {
+    	Intent intent = new Intent(this, PamActivity.class);
+        startActivity(intent);
+    }
     
 }   //end class
