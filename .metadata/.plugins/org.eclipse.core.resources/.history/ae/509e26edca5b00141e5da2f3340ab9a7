@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+
+	    <TextView
+	        android:id="@+id/homeName"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="50sp"
+	        android:text="@string/home_message1"
+	        android:textSize="45sp"
+	        android:gravity="center" />
+	    
+	    <TextView
+	        android:id="@+id/homeMessage"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/home_message2"
+	        android:textSize="20sp"
+	        android:gravity="center" />
+	    
+	    <Button
+	        android:id="@+id/enterMoodButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="30sp"
+	        android:text="@string/enter_mood"
+	        android:layout_gravity="center"
+	    	android:onClick="startAlarm" />
+    	   
+</LinearLayout>
