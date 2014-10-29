@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+
+	    <TextView
+	        android:id="@+id/homeName"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/home_name"
+	        android:textSize="45sp"
+	        android:gravity="center" />
+	    
+	    <TextView
+	        android:id="@+id/homeMessage"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/home_message"
+	        android:textSize="20sp"
+	        android:gravity="center" />  
+	        
+	    <Button
+	        android:id="@+id/pamButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_margin="25sp"
+	        android:text="@string/pam_button" />
+    	   
+</LinearLayout>
