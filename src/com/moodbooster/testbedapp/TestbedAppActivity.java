@@ -1,6 +1,8 @@
 package com.moodbooster.testbedapp;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.Intent;
 
 import java.io.IOException;
@@ -18,15 +21,23 @@ import edu.cornell.pam.PamActivity;
 
 
 public class TestbedAppActivity extends Activity {
-    /** Called when the activity is first created. */
+    public TestbedAppActivity()
+    {
+    	
+    }
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
-    {
+    {    	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 	    
-	    
+        
+        
+        
         //***CHANGE WALLPAPER***
+        
         
 	    //create button and associate with layout xml definition
 	    Button changeButton = (Button)findViewById(R.id.change_button);
@@ -53,6 +64,8 @@ public class TestbedAppActivity extends Activity {
 		   	}   //end onclick
 	    });   //end event handler
 	    
+        
+	    
 	    
 	    
 	    //***GET TIME***
@@ -68,8 +81,10 @@ public class TestbedAppActivity extends Activity {
 	    else
 	    {
 	    	//set label to no-go message
-	    	((TextView)findViewById(R.id.label)).setText("new contender");
+	    	((TextView)findViewById(R.id.label)).setText("353");
 	    }
+	    
+	    setAlarm(this);
 	    
 
     }   //end oncreate
@@ -81,6 +96,27 @@ public class TestbedAppActivity extends Activity {
         inflater.inflate(R.menu.main_activity_actions, menu);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         return super.onCreateOptionsMenu(menu);
+    }
+    
+    public void setAlarm(Context context)
+    {
+    	AlarmManager alarmMgr;
+    	PendingIntent alarmIntent;
+    	
+    	alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, PamActivity.class);
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        
+        // Set the alarm to start at approximately 2:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 42);
+        
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+             AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
     }
     
     @Override
@@ -101,6 +137,22 @@ public class TestbedAppActivity extends Activity {
     public void openPAM() {
     	Intent intent = new Intent(this, PamActivity.class);
         startActivity(intent);
+    }
+    
+    public void changeWallpaper()
+    {
+    	WallpaperManager myWallpaperManager 
+	    = WallpaperManager.getInstance(getApplicationContext());
+	    try
+	    {
+	    	//set image to wallpaper
+	        myWallpaperManager.setResource(R.drawable.cornell_s);
+	    }
+	    catch (IOException e)
+	    {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
     }
     
 }   //end class

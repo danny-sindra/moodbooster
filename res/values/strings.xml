@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TestbedApp</string>
-    <string name="prompt">what types of images make you happy?</string>
-    <string name="radio_nature">nature</string>
+    <string name="app_name">MoodBooster</string>
+    <string name="home_message1">MoodBooster</string>
+    <string name="home_message2">is running</string>
+    <string name="enter_mood">enter your mood</string>
+    
+    <!-- <string name="radio_nature">nature</string>
     <string name="radio_animals">animals</string>
-    <string name="radio_babies">babies</string>
-    <string name="group_select">submit image group</string>
+    <string name="radio_babies">babies</string>    
+    <string name="group_select">submit image group</string> -->
+    
     <string name="change_wallpaper">change to mlake</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

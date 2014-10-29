@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -58,6 +58,6 @@
         android:layout_height="75sp"
         android:layout_gravity="center_horizontal"
         android:text="@string/group_select"
-        android:onClick="changeWallpaper"/>
+        android:onClick="changeWallpaper"/> -->
       
 </LinearLayout>

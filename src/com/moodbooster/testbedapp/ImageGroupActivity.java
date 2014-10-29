@@ -25,9 +25,9 @@ public class ImageGroupActivity extends Activity {
         setContentView(R.layout.image_group);
         
         //call method to handle button press
-        addListenerOnButton();
+        //addListenerOnButton();
     }
-        
+    /*    
     public void addListenerOnButton()
     {
     	//define radio group and submit button
@@ -55,6 +55,6 @@ public class ImageGroupActivity extends Activity {
     	});  //end setOnClickListener
     	
     }   //end addListenerOnButton
-
+	*/
 
 }   //end class
