@@ -11,10 +11,14 @@
     <string name="radio_babies">babies</string>    
     <string name="group_select">submit image group</string> -->
     
-    <string name="change_wallpaper">change to mlake</string>
     <string name="hello_world">Hello world!</string>
+    <string name="change_wallpaper">change to mlake</string>
     <string name="action_settings">Settings</string>
     <string name="action_pam">PAM</string>
     <string name="title_activity_main">PAM</string>
+    
+    <string name="select_picture">Select this picture?</string>
+    <string name="select_picture_ok">OK</string>
+    <string name="select_picture_cancel">Cancel</string>
     
 </resources>
