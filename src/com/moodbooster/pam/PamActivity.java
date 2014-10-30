@@ -32,6 +32,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class PamActivity extends Activity implements
 		PamConfirmationDialogListener {
@@ -222,8 +223,9 @@ public class PamActivity extends Activity implements
 
 				// Show PAM confirmation box
 				FragmentManager fm = getFragmentManager();
-			    DialogFragment newFragment = new PamConfirmationDialogFragment(2, "Animal", position, 12);
-			    newFragment.show(fm, "PamConfirmationDialogFragment");
+				DialogFragment newFragment = new PamConfirmationDialogFragment(
+						2, "Animal", position, 12);
+				newFragment.show(fm, "PamConfirmationDialogFragment");
 			}
 		});
 	}
@@ -245,7 +247,7 @@ public class PamActivity extends Activity implements
 		long newRowId = MoodBoosterDbHelper.insertNewRecord(dbHelper,
 				currentWallpaperId, currentWallpaperCategory, pamScore,
 				totalScreenUnlocked);
-		
+
 		// DEBUGGING
 		// MoodBoosterDbHelper.dropTable(dbHelper); //drop table
 		// MoodBoosterDbHelper.insertDummyRecord(dbHelper); //insert
@@ -253,7 +255,7 @@ public class PamActivity extends Activity implements
 		// MoodBoosterDbHelper.printFirstRecordToLogcat(dbHelper);
 		// //print first record
 		// MoodBoosterDbHelper.exportDbToCSV(dbHelper, "danny");
-		
+
 		return newRowId;
 	}
 
@@ -277,6 +279,7 @@ public class PamActivity extends Activity implements
 		long newRowId = saveUserSelection(currentWallpaperId,
 				currentWallpaperCategory, pamScore, totalScreenUnlocked);
 		Log.d("Result", "new row id: " + newRowId);
+		showSelectConfirmationText();
 		finish();
 		return true;
 	}
@@ -285,6 +288,17 @@ public class PamActivity extends Activity implements
 	public boolean onDialogNegativeClick(DialogFragment dialog) {
 		dialog.dismiss();
 		return false;
+	}
+
+	/**
+	 * Display Toast message after user confirm her selection
+	 */
+	public void showSelectConfirmationText() {
+		CharSequence text = getResources().getString(
+				R.string.select_picture_toast);
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast.makeText(getApplicationContext(), text, duration).show();
 	}
 
 }
