@@ -220,14 +220,45 @@ public class PamActivity extends Activity implements
 				result.putExtra(PAM_SELECTION, position);
 				result.putExtra(PAM_PHOTO_ID, pam_photo_id);
 				setResult(Activity.RESULT_OK, result);
-
+				
 				// Show PAM confirmation box
 				FragmentManager fm = getFragmentManager();
 				DialogFragment newFragment = new PamConfirmationDialogFragment(
-						2, "Animal", position, 12);
+						2, "Animal", getPamScore(position), 12);
 				newFragment.show(fm, "PamConfirmationDialogFragment");
 			}
 		});
+	}
+	
+	/**
+	 * Convert from picture position to PAM score
+	 * @param position
+	 * @return
+	 */
+	public int getPamScore(int position) {
+		switch (position) {
+			//row 1
+			case 0: return 6;
+			case 1: return 8;
+			case 2: return 14;
+			case 3: return 16;
+			//row 2
+			case 4: return 5;
+			case 5: return 7;
+			case 6: return 13;
+			case 7: return 15;
+			//row 3
+			case 8: return 2;
+			case 9: return 4;
+			case 10: return 10;
+			case 11: return 12;
+			//row 4
+			case 12: return 1;
+			case 13: return 3;
+			case 14: return 9;
+			case 15: return 11;
+		}
+		return 0;
 	}
 
 	/**
@@ -261,7 +292,6 @@ public class PamActivity extends Activity implements
 
 	/**
 	 * Export usage data to CSV file in storage card
-	 * 
 	 * @param userId
 	 */
 	void exportUsageData(String userId) {
@@ -272,28 +302,27 @@ public class PamActivity extends Activity implements
 	}
 
 	@Override
-	public boolean onDialogPositiveClick(DialogFragment dialog,
+	public void onDialogPositiveClick(DialogFragment dialog,
 			int currentWallpaperId, String currentWallpaperCategory,
 			int pamScore, int totalScreenUnlocked) {
 		// Create a new log entry in database
 		long newRowId = saveUserSelection(currentWallpaperId,
 				currentWallpaperCategory, pamScore, totalScreenUnlocked);
 		Log.d("Result", "new row id: " + newRowId);
-		showSelectConfirmationText();
-		finish();
-		return true;
+		
+		showToastConfirmationText();
+		goToHomeScreen();
 	}
 
 	@Override
-	public boolean onDialogNegativeClick(DialogFragment dialog) {
+	public void onDialogNegativeClick(DialogFragment dialog) {
 		dialog.dismiss();
-		return false;
 	}
 
 	/**
 	 * Display Toast message after user confirm her selection
 	 */
-	public void showSelectConfirmationText() {
+	public void showToastConfirmationText() {
 		CharSequence text = getResources().getString(
 				R.string.select_picture_toast);
 		int duration = Toast.LENGTH_SHORT;
@@ -301,4 +330,13 @@ public class PamActivity extends Activity implements
 		Toast.makeText(getApplicationContext(), text, duration).show();
 	}
 
+	/**
+	 * Go to Home Screen
+	 */
+	public void goToHomeScreen() {
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+		startMain.addCategory(Intent.CATEGORY_HOME);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(startMain);
+	}
 }

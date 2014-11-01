@@ -46,11 +46,11 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 	 * passes the DialogFragment in case the host needs to query it.
 	 */
 	public interface PamConfirmationDialogListener {
-		public boolean onDialogPositiveClick(DialogFragment dialog,
+		public void onDialogPositiveClick(DialogFragment dialog,
 				int currentWallpaperId, String currentWallpaperCategory,
 				int pamScore, int totalScreenUnlocked);
 
-		public boolean onDialogNegativeClick(DialogFragment dialog);
+		public void onDialogNegativeClick(DialogFragment dialog);
 	}
 
 	@Override
