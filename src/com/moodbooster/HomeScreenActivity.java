@@ -63,7 +63,7 @@ public class HomeScreenActivity extends Activity {
         wallPendingIntent = PendingIntent.getBroadcast(this, 0, wallpaperIntent, 0);
         
         //how often the wallpaper will update (millis)
-        int wallInterval = 30000;
+        int wallInterval = 3000;
         
         //set wallpaper to repeat
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), wallInterval, wallPendingIntent);
