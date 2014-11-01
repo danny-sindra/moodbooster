@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,12 +30,10 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 	 * @param totalScreenUnlocked
 	 */
 	public PamConfirmationDialogFragment(int currentWallpaperId,
-			String currentWallpaperCategory, int pamScore,
-			int totalScreenUnlocked) {
+			String currentWallpaperCategory, int pamScore) {
 		this.currentWallpaperId = currentWallpaperId;
 		this.currentWallpaperCategory = currentWallpaperCategory;
 		this.pamScore = pamScore;
-		this.totalScreenUnlocked = totalScreenUnlocked;
 		this.setRetainInstance(true);
 	}
 
@@ -48,7 +45,7 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 	public interface PamConfirmationDialogListener {
 		public void onDialogPositiveClick(DialogFragment dialog,
 				int currentWallpaperId, String currentWallpaperCategory,
-				int pamScore, int totalScreenUnlocked);
+				int pamScore);
 
 		public void onDialogNegativeClick(DialogFragment dialog);
 	}
@@ -64,8 +61,7 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 								mListener.onDialogPositiveClick(
 										PamConfirmationDialogFragment.this,
 										currentWallpaperId,
-										currentWallpaperCategory, pamScore,
-										totalScreenUnlocked);
+										currentWallpaperCategory, pamScore);
 							}
 						})
 				.setNegativeButton(R.string.select_picture_cancel,

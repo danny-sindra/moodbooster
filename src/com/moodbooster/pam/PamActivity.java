@@ -7,18 +7,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.moodbooster.R;
+import com.moodbooster.UnlockPhoneReceiver;
 import com.moodbooster.db.MoodBoosterDbHelper;
-import com.moodbooster.db.MoodBoosterContract.MoodBoosterEntry;
 import com.moodbooster.pam.PamConfirmationDialogFragment.PamConfirmationDialogListener;
 
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -220,43 +219,61 @@ public class PamActivity extends Activity implements
 				result.putExtra(PAM_SELECTION, position);
 				result.putExtra(PAM_PHOTO_ID, pam_photo_id);
 				setResult(Activity.RESULT_OK, result);
-				
+
 				// Show PAM confirmation box
+				//	CUR_WAL_ID & CUR_WAL_CATEG may not be needed to be passed here
 				FragmentManager fm = getFragmentManager();
 				DialogFragment newFragment = new PamConfirmationDialogFragment(
-						2, "Animal", getPamScore(position), 12);
+						2, "Animal", getPamScore(position) );
 				newFragment.show(fm, "PamConfirmationDialogFragment");
 			}
 		});
 	}
-	
+
 	/**
 	 * Convert from picture position to PAM score
+	 * 
 	 * @param position
 	 * @return
 	 */
 	public int getPamScore(int position) {
 		switch (position) {
-			//row 1
-			case 0: return 6;
-			case 1: return 8;
-			case 2: return 14;
-			case 3: return 16;
-			//row 2
-			case 4: return 5;
-			case 5: return 7;
-			case 6: return 13;
-			case 7: return 15;
-			//row 3
-			case 8: return 2;
-			case 9: return 4;
-			case 10: return 10;
-			case 11: return 12;
-			//row 4
-			case 12: return 1;
-			case 13: return 3;
-			case 14: return 9;
-			case 15: return 11;
+		// row 1
+		case 0:
+			return 6;
+		case 1:
+			return 8;
+		case 2:
+			return 14;
+		case 3:
+			return 16;
+			// row 2
+		case 4:
+			return 5;
+		case 5:
+			return 7;
+		case 6:
+			return 13;
+		case 7:
+			return 15;
+			// row 3
+		case 8:
+			return 2;
+		case 9:
+			return 4;
+		case 10:
+			return 10;
+		case 11:
+			return 12;
+			// row 4
+		case 12:
+			return 1;
+		case 13:
+			return 3;
+		case 14:
+			return 9;
+		case 15:
+			return 11;
 		}
 		return 0;
 	}
@@ -271,10 +288,17 @@ public class PamActivity extends Activity implements
 	 * @return
 	 */
 	long saveUserSelection(int currentWallpaperId,
-			String currentWallpaperCategory, int pamScore,
-			int totalScreenUnlocked) {
+			String currentWallpaperCategory, int pamScore) {
 		MoodBoosterDbHelper dbHelper = new MoodBoosterDbHelper(
 				getApplicationContext());
+		
+		// Get user's total phone unlock  today
+		SharedPreferences savedData = getSharedPreferences(
+				UnlockPhoneReceiver.PREFS_NAME, Context.MODE_PRIVATE);
+		int totalScreenUnlocked = savedData.getInt(UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK,
+						UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK_DEFAULTVAL);
+		
+		// Create new PAM log entry
 		long newRowId = MoodBoosterDbHelper.insertNewRecord(dbHelper,
 				currentWallpaperId, currentWallpaperCategory, pamScore,
 				totalScreenUnlocked);
@@ -292,6 +316,7 @@ public class PamActivity extends Activity implements
 
 	/**
 	 * Export usage data to CSV file in storage card
+	 * 
 	 * @param userId
 	 */
 	void exportUsageData(String userId) {
@@ -304,12 +329,12 @@ public class PamActivity extends Activity implements
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog,
 			int currentWallpaperId, String currentWallpaperCategory,
-			int pamScore, int totalScreenUnlocked) {
+			int pamScore) {
 		// Create a new log entry in database
 		long newRowId = saveUserSelection(currentWallpaperId,
-				currentWallpaperCategory, pamScore, totalScreenUnlocked);
+				currentWallpaperCategory, pamScore);
 		Log.d("Result", "new row id: " + newRowId);
-		
+
 		showToastConfirmationText();
 		goToHomeScreen();
 	}

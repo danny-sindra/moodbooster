@@ -45,6 +45,14 @@
 	            android:value="com.moodbooster.testbedapp.MainActivity" />
         </activity>
         
+        <receiver android:name="UnlockPhoneReceiver">
+	        <intent-filter> 
+	            <action android:name="android.intent.action.SCREEN_ON" />
+	            <action android:name="android.intent.action.SCREEN_OFF" />
+				<action android:name="android.Intent.ACTION_USER_PRESENT" />
+	        </intent-filter> 
+    	</receiver>
+        
     </application>
 
 </manifest>
