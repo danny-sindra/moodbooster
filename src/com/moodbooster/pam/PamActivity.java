@@ -221,10 +221,12 @@ public class PamActivity extends Activity implements
 				setResult(Activity.RESULT_OK, result);
 
 				// Show PAM confirmation box
-				//	CUR_WAL_ID & CUR_WAL_CATEG may not be needed to be passed here
+				// CUR_WAL_ID & CUR_WAL_CATEG may not be needed to be passed
+				// here
 				FragmentManager fm = getFragmentManager();
 				DialogFragment newFragment = new PamConfirmationDialogFragment(
-						2, "Animal", getPamScore(position) );
+						pam_photo_id, 2, "Animal",
+						getPamScore(position));
 				newFragment.show(fm, "PamConfirmationDialogFragment");
 			}
 		});
@@ -238,42 +240,26 @@ public class PamActivity extends Activity implements
 	 */
 	public int getPamScore(int position) {
 		switch (position) {
-		// row 1
-		case 0:
-			return 6;
-		case 1:
-			return 8;
-		case 2:
-			return 14;
-		case 3:
-			return 16;
+			// row 1
+			case 0: return 6;
+			case 1: return 8;
+			case 2: return 14;
+			case 3: return 16;
 			// row 2
-		case 4:
-			return 5;
-		case 5:
-			return 7;
-		case 6:
-			return 13;
-		case 7:
-			return 15;
+			case 4: return 5;
+			case 5: return 7;
+			case 6: return 13;
+			case 7: return 15;
 			// row 3
-		case 8:
-			return 2;
-		case 9:
-			return 4;
-		case 10:
-			return 10;
-		case 11:
-			return 12;
+			case 8: return 2;
+			case 9: return 4;
+			case 10: return 10;
+			case 11: return 12;
 			// row 4
-		case 12:
-			return 1;
-		case 13:
-			return 3;
-		case 14:
-			return 9;
-		case 15:
-			return 11;
+			case 12: return 1;
+			case 13: return 3;
+			case 14: return 9;
+			case 15: return 11;
 		}
 		return 0;
 	}
@@ -291,13 +277,14 @@ public class PamActivity extends Activity implements
 			String currentWallpaperCategory, int pamScore) {
 		MoodBoosterDbHelper dbHelper = new MoodBoosterDbHelper(
 				getApplicationContext());
-		
-		// Get user's total phone unlock  today
+
+		// Get user's total phone unlock today
 		SharedPreferences savedData = getSharedPreferences(
 				UnlockPhoneReceiver.PREFS_NAME, Context.MODE_PRIVATE);
-		int totalScreenUnlocked = savedData.getInt(UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK,
-						UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK_DEFAULTVAL);
-		
+		int totalScreenUnlocked = savedData.getInt(
+				UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK,
+				UnlockPhoneReceiver.PREFS_TOTAL_UNLOCK_DEFAULTVAL);
+
 		// Create new PAM log entry
 		long newRowId = MoodBoosterDbHelper.insertNewRecord(dbHelper,
 				currentWallpaperId, currentWallpaperCategory, pamScore,
