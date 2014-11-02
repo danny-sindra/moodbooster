@@ -1,10 +1,9 @@
 package com.moodbooster;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
-
-import com.moodbooster.pam.PamActivity;
 
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
@@ -14,9 +13,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class WallpaperReceiver extends BroadcastReceiver
 {
@@ -29,7 +26,6 @@ public class WallpaperReceiver extends BroadcastReceiver
 	    = WallpaperManager.getInstance(arg0);
 	    try
 	    {
-	    	
 	    	//set image to wallpaper
 	        //myWallpaperManager.setResource(R.drawable.cornell_s);
 	    	//myWallpaperManager.suggestDesiredDimensions(1080, 1920);
@@ -65,26 +61,21 @@ public class WallpaperReceiver extends BroadcastReceiver
 		windowManager.getDefaultDisplay().getMetrics(metrics);
 		displayHeight = metrics.heightPixels;
 		displayWidth = metrics.widthPixels;
-        Log.v("DISPLAY", displayHeight + " " + displayWidth);
 		
         //get height and width of image
         imageHeight = bitmap.getHeight();
         imageWidth = bitmap.getWidth();
-        Log.v("IMAGE", imageHeight + " " + imageWidth);
         
         //determine ratio of height and width
         heightRatio = displayHeight / imageHeight;
         widthRatio = displayWidth / imageWidth;
-        Log.v("RATIO", heightRatio + " " + widthRatio);
         
     	//compare ratios
     	scaleRatio = Math.max(heightRatio, widthRatio);
-        Log.v("SCALERATIO", Double.toString(scaleRatio));
         
         //resize image dimensions by smaller ratio
         scaledHeight = (int) (imageHeight * scaleRatio);
         scaledWidth = (int) (imageWidth * scaleRatio);
-        Log.v("SCALED", scaledHeight + " " + scaledWidth);
         
 		//scale the given bitmap
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
@@ -95,9 +86,10 @@ public class WallpaperReceiver extends BroadcastReceiver
 	public Bitmap getBitmapFromAsset(Context arg0, String strName)
 			throws IOException {
 		AssetManager assetManager = arg0.getAssets();
-
+		
+		//get asset and convert to bitmap
 		InputStream istr = assetManager.open(strName);
-		Bitmap bitmap = BitmapFactory.decodeStream(istr);
+		Bitmap bitmap = BitmapFactory.decodeStream(new FlushedInputStream(istr));
 
 		return bitmap;
 		
@@ -110,8 +102,8 @@ public class WallpaperReceiver extends BroadcastReceiver
 		String happyDir = "happy_images/";
 		String happyPath = "";
 		
+		//get random image
 		choice = random.nextInt(19) + 1;
-		Log.v("CHOICE", Integer.toString(choice));
 		happyPath = happyDir + Integer.toString(choice) + ".jpg";
 		
 		return happyPath;
@@ -119,5 +111,28 @@ public class WallpaperReceiver extends BroadcastReceiver
 	}
 	
 
+	static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
+        }
+
+        @Override
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int b = read();
+                    if (b < 0) {
+                        break;  // we reached EOF
+                    } else {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
+        }
+    }   //end flushedinputstream
 	
 }   //end AlarmReceiver class

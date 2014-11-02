@@ -7,18 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
-
 import com.moodbooster.pam.PamActivity;
 
 
@@ -46,24 +40,38 @@ public class HomeScreenActivity extends Activity {
         
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         
-        //set time for mood entry alarm
-        Calendar moodentryTime = Calendar.getInstance();
-        moodentryTime.set(Calendar.HOUR_OF_DAY, 0);
-        moodentryTime.set(Calendar.MINUTE, 19);
+        //set first time for mood entry alarm
+        Calendar moodentryOne = Calendar.getInstance();
+        moodentryOne.set(Calendar.HOUR_OF_DAY, 14);
+        moodentryOne.set(Calendar.MINUTE, 0);
         
-        //how often the notification will appear (millis)
-        int notifInterval = 60000;
+        //how often first notification will appear (millis)
+        int notifIntervalOne = 1000 * 60 * 60 * 24;   //1sec -> 1 min -> 1hr -> 24hrs
         
         //set notification to repeat
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, moodentryTime.getTimeInMillis(), notifInterval, notifPendingIntent);
-
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, moodentryOne.getTimeInMillis(), notifIntervalOne, notifPendingIntent);
+        
+        // Retrieve a PendingIntent that will perform a broadcast
+        notifPendingIntent = PendingIntent.getBroadcast(this, 1, notificationIntent, 0);
+        
+        //set second time for mood entry alarm
+        Calendar moodentryTwo = Calendar.getInstance();
+        moodentryTwo.set(Calendar.HOUR_OF_DAY, 20);
+        moodentryTwo.set(Calendar.MINUTE, 0);
+        
+        //how often first notification will appear (millis)
+        int notifIntervalTwo = 1000 * 60 * 60 * 24;   //1sec -> 1 min -> 1hr -> 24hrs
+        
+        //set notification to repeat
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, moodentryTwo.getTimeInMillis(), notifIntervalTwo, notifPendingIntent);
+        
         
         //set wallpaper to change
         Intent wallpaperIntent = new Intent(this, WallpaperReceiver.class);
         wallPendingIntent = PendingIntent.getBroadcast(this, 0, wallpaperIntent, 0);
         
         //how often the wallpaper will update (millis)
-        int wallInterval = 10000;
+        int wallInterval = 1000 * 60 * 60;   //1sec -> 1min -> 1hr
         
         //set wallpaper to repeat
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), wallInterval, wallPendingIntent);
