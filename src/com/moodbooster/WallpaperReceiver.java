@@ -13,7 +13,9 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class WallpaperReceiver extends BroadcastReceiver
@@ -31,7 +33,10 @@ public class WallpaperReceiver extends BroadcastReceiver
 	    	//set image to wallpaper
 	        //myWallpaperManager.setResource(R.drawable.cornell_s);
 	    	//myWallpaperManager.suggestDesiredDimensions(1080, 1920);
-	        myWallpaperManager.setBitmap(getBitmapFromAsset(arg0, getHappyImage()));
+	    	Bitmap bitmapToDisplay = scaleBitmap(arg0, getBitmapFromAsset(arg0, getHappyImage()));
+	    	
+	    	//set scaled bitmap as wallpaper
+	        myWallpaperManager.setBitmap(bitmapToDisplay);
 	    }
 	    catch (IOException e)
 	    {
@@ -41,6 +46,51 @@ public class WallpaperReceiver extends BroadcastReceiver
         
 	    
     }   //end onreceive
+	
+	public Bitmap scaleBitmap (Context con, Bitmap bitmap)
+	{
+		double displayHeight;
+		double displayWidth;
+		double imageHeight;
+		double imageWidth;
+		double heightRatio;
+		double widthRatio;
+		double scaleRatio;
+		int scaledHeight;
+		int scaledWidth;
+		
+		//get height and width of display
+		DisplayMetrics metrics = new DisplayMetrics ();
+		WindowManager windowManager = (WindowManager)con.getSystemService(Context.WINDOW_SERVICE);
+		windowManager.getDefaultDisplay().getMetrics(metrics);
+		displayHeight = metrics.heightPixels;
+		displayWidth = metrics.widthPixels;
+        Log.v("DISPLAY", displayHeight + " " + displayWidth);
+		
+        //get height and width of image
+        imageHeight = bitmap.getHeight();
+        imageWidth = bitmap.getWidth();
+        Log.v("IMAGE", imageHeight + " " + imageWidth);
+        
+        //determine ratio of height and width
+        heightRatio = displayHeight / imageHeight;
+        widthRatio = displayWidth / imageWidth;
+        Log.v("RATIO", heightRatio + " " + widthRatio);
+        
+    	//compare ratios
+    	scaleRatio = Math.max(heightRatio, widthRatio);
+        Log.v("SCALERATIO", Double.toString(scaleRatio));
+        
+        //resize image dimensions by smaller ratio
+        scaledHeight = (int) (imageHeight * scaleRatio);
+        scaledWidth = (int) (imageWidth * scaleRatio);
+        Log.v("SCALED", scaledHeight + " " + scaledWidth);
+        
+		//scale the given bitmap
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+		
+		return scaledBitmap;
+	}
 	
 	public Bitmap getBitmapFromAsset(Context arg0, String strName)
 			throws IOException {
@@ -61,6 +111,7 @@ public class WallpaperReceiver extends BroadcastReceiver
 		String happyPath = "";
 		
 		choice = random.nextInt(19) + 1;
+		Log.v("CHOICE", Integer.toString(choice));
 		happyPath = happyDir + Integer.toString(choice) + ".jpg";
 		
 		return happyPath;
