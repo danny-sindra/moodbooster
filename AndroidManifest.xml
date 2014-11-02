@@ -24,25 +24,23 @@
         
         <receiver android:name=".WallpaperReceiver"></receiver>
         <receiver android:name=".NotificationReceiver"></receiver>
-        
-        <activity
-            android:name="com.moodbooster.TestbedAppActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <!-- <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" /> -->
-            </intent-filter>
-        </activity>
+        <receiver android:name="UnlockPhoneReceiver">
+	        <intent-filter> 
+	            <action android:name="android.intent.action.SCREEN_ON" />
+	            <action android:name="android.intent.action.SCREEN_OFF" />
+				<action android:name="android.Intent.ACTION_USER_PRESENT" />
+	        </intent-filter> 
+    	</receiver>
         
         <activity
             android:name="com.moodbooster.pam.PamActivity"
             android:label="@string/title_activity_main"
-            android:parentActivityName="com.moodbooster.TestbedAppActivity" >
+            android:parentActivityName="com.moodbooster.HomeScreenActivity" >
             
 	        <!-- Parent activity meta-data to support 4.0 and lower -->
 	        <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.moodbooster.testbedapp.MainActivity" />
+	            android:value="com.moodbooster.HomeScreenActivity" />
         </activity>
         
     </application>

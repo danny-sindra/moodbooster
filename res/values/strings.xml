@@ -20,6 +20,6 @@
     <string name="select_picture">Select this picture?</string>
     <string name="select_picture_ok">OK</string>
     <string name="select_picture_cancel">Cancel</string>
-    <string name="select_picture_toast">Selection Saved</string>
+    <string name="select_picture_toast">Thank you. Your selection is saved</string>
     
 </resources>
