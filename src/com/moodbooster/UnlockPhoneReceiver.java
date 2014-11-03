@@ -17,7 +17,6 @@ public class UnlockPhoneReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-
 		if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 
 		}
@@ -43,7 +42,8 @@ public class UnlockPhoneReceiver extends BroadcastReceiver {
 				// Write new day to PREFS
 				editor.putInt(PREFS_DATE, currentDay);
 				
-				editor.commit();}
+				editor.commit();
+			}
 			else {
 				// Get old total_unlock value from PREFS
 				savedData = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

@@ -22,8 +22,6 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 
 	// Handle data from parent activity
 	int pam_photo_id;
-	int currentWallpaperId;
-	String currentWallpaperCategory;
 	int pamScore;
 
 	// Use this instance of the interface to deliver action events
@@ -36,12 +34,8 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 	 * @param currentWallpaperCategory
 	 * @param pamScore
 	 */
-	public PamConfirmationDialogFragment(int pam_photo_id,
-			int currentWallpaperId, String currentWallpaperCategory,
-			int pamScore) {
+	public PamConfirmationDialogFragment(int pam_photo_id, int pamScore) {
 		this.pam_photo_id = pam_photo_id;
-		this.currentWallpaperId = currentWallpaperId;
-		this.currentWallpaperCategory = currentWallpaperCategory;
 		this.pamScore = pamScore;
 		this.setRetainInstance(true);
 	}
@@ -52,10 +46,7 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 	 * passes the DialogFragment in case the host needs to query it.
 	 */
 	public interface PamConfirmationDialogListener {
-		public void onDialogPositiveClick(DialogFragment dialog,
-				int currentWallpaperId, String currentWallpaperCategory,
-				int pamScore);
-
+		public void onDialogPositiveClick(DialogFragment dialog, int pamScore);
 		public void onDialogNegativeClick(DialogFragment dialog);
 	}
 
@@ -84,8 +75,7 @@ public class PamConfirmationDialogFragment extends DialogFragment {
 							public void onClick(DialogInterface dialog, int id) {
 								mListener.onDialogPositiveClick(
 										PamConfirmationDialogFragment.this,
-										currentWallpaperId,
-										currentWallpaperCategory, pamScore);
+										pamScore);
 							}
 						})
 				.setNegativeButton(R.string.select_picture_cancel,
