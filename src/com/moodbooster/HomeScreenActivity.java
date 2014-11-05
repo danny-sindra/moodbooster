@@ -43,6 +43,7 @@ public class HomeScreenActivity extends Activity {
         
         //set first time for mood entry alarm
         Calendar moodentryOne = Calendar.getInstance();
+        moodentryOne.setTimeInMillis(System.currentTimeMillis());
         moodentryOne.set(Calendar.HOUR_OF_DAY, 14);
         moodentryOne.set(Calendar.MINUTE, 0);
         
