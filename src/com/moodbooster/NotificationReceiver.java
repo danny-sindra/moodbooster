@@ -43,6 +43,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	} // end onreceive
 
+	/**
+	 * Customize the Ticker message based on notification time
+	 * @param notifTime
+	 * @return
+	 */
 	private String getTimelyMessage(int notifTime) {
 		if (notifTime==HomeScreenActivity.FIRST_NOTIF_HOUR) {
 			return "Howdy! it is already " + HomeScreenActivity.FIRST_NOTIF_HOUR + ":00. Let us know how do you feel today!";
