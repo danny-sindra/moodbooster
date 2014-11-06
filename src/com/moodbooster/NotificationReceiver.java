@@ -10,8 +10,8 @@ import android.graphics.BitmapFactory;
 
 public class NotificationReceiver extends BroadcastReceiver {
 	
-	public final static int FIRST_NOTIF_HOUR = 11;
-	public final static int SECOND_NOTIF_HOUR = 12;
+	public final static int FIRST_NOTIF_HOUR = 14;
+	public final static int SECOND_NOTIF_HOUR = 20;
 	
 	private PendingIntent pamPendingIntent;
 
