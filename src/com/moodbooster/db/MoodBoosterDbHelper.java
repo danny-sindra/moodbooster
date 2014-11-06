@@ -3,6 +3,8 @@ package com.moodbooster.db;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.moodbooster.db.MoodBoosterContract.MoodBoosterEntry;
 
@@ -20,7 +22,8 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "MoodBooster.db";
     public static final String APP_FOLDER_NAME = "MoodBooster";
-
+    public static final String EXPORT_FILE_TYPE = ".csv";
+    
     public MoodBoosterDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -266,4 +269,59 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
 		}
 		return true;
 	}
+    
+    /**
+     * List all files in a directory
+     * @param parentDir
+     * @return
+     */
+    private static List<File> getListFiles(File parentDir) {
+        ArrayList<File> inFiles = new ArrayList<File>();
+        File[] files = parentDir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                inFiles.addAll(getListFiles(file));
+            } else {
+                if(file.getName().endsWith(EXPORT_FILE_TYPE)){
+                    inFiles.add(file);
+                }
+            }
+        }
+        return inFiles;
+    }
+    
+    /**
+     * Return the path of the last created log file in storage card
+     * @return
+     */
+    public static String getLatestLogFilePath() {
+    	String dirPath = Environment.getExternalStorageDirectory() + "/" + APP_FOLDER_NAME;
+    	File dir = new File(dirPath);
+    	File[] files = dir.listFiles();
+        
+    	// Get all log files recursively
+    	ArrayList<File> logFiles = new ArrayList<File>();
+    	for (File file : files) {
+            if (file.isDirectory()) {
+                logFiles.addAll(getListFiles(file));
+            } else {
+                if(file.getName().endsWith(EXPORT_FILE_TYPE)){
+                    logFiles.add(file);
+                }
+            }
+        }
+    	
+    	// Get only the latest CSV file
+    	long latestLogTimestamp = 0;
+    	for (File file : logFiles) {
+    		String fileLogName = file.getName().split("\\.")[0];
+    		
+    		long fileLogTimestamp = Long.parseLong( fileLogName );
+    		if ( fileLogTimestamp > latestLogTimestamp ) {
+    			latestLogTimestamp = fileLogTimestamp;
+    		}
+    	}
+    	
+    	return dirPath + "/" + latestLogTimestamp + EXPORT_FILE_TYPE;
+    }
 }

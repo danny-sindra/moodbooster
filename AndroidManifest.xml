@@ -38,6 +38,14 @@
         
         <receiver android:name=".NotificationReceiver"></receiver>
         
+        <receiver android:name=".BootReceiver"
+            android:enabled="true">
+	        <intent-filter>
+	            <action android:name="android.intent.action.BOOT_COMPLETED" />
+	            <action android:name="com.moodbooster.HomeScreenActivity" />
+	        </intent-filter>
+        </receiver>
+        
         <receiver android:name=".UnlockPhoneReceiver">
 	        <intent-filter> 
 	            <action android:name="android.intent.action.SCREEN_ON" />

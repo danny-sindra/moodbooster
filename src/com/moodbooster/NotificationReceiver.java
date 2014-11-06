@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 
 public class NotificationReceiver extends BroadcastReceiver {
+	
+	public final static int FIRST_NOTIF_HOUR = 11;
+	public final static int SECOND_NOTIF_HOUR = 12;
+	
 	private PendingIntent pamPendingIntent;
 
 	@Override
@@ -19,7 +23,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		pamPendingIntent = PendingIntent.getActivity(arg0, 0, pamIntent, 0);
 
 		// set attributes for notification
-		int notifTime = arg1.getIntExtra(HomeScreenActivity.EXTRA_NOTIF, 0);
+		int notifTime = arg1.getIntExtra(BootReceiver.EXTRA_NOTIF, 0);
 		String notifTicker = getTimelyMessage(notifTime);
 		String notifMessage = "Time to enter your mood";
 		Notification noti = new Notification.Builder(arg0)
@@ -49,11 +53,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 	 * @return
 	 */
 	private String getTimelyMessage(int notifTime) {
-		if (notifTime==HomeScreenActivity.FIRST_NOTIF_HOUR) {
-			return "Howdy! it is already " + HomeScreenActivity.FIRST_NOTIF_HOUR + ":00. Let us know how do you feel today!";
+		if (notifTime==FIRST_NOTIF_HOUR) {
+			return "Howdy! it is already " + FIRST_NOTIF_HOUR + ":00. Let us know how do you feel today!";
 		}
-		else if (notifTime==HomeScreenActivity.SECOND_NOTIF_HOUR) {
-			return "Good evening, it is " + HomeScreenActivity.SECOND_NOTIF_HOUR + ":00 now! Time to enter your mood";
+		else if (notifTime==SECOND_NOTIF_HOUR) {
+			return "Good evening, it is " + SECOND_NOTIF_HOUR + ":00 now! Time to enter your mood";
 		}
 		else {
 			return "How do you feel today? ";
