@@ -25,10 +25,13 @@ import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
-import android.view.View;;
+import android.view.View;
+
+;
 
 public class WallpaperReceiver extends BroadcastReceiver {
 
+	public static final int NUMBER_OF_WALLPAPERS = 33;
 	public static final String PREFS_WALLPAPER_ID = "WALLPAPER_ID";
 	public static final int PREFS_WALLPAPER_ID_DEFAULTVAL = 1;
 	public static final String PREFS_WALLPAPER_CATEGORY = "WALLPAPER_CATEGORY";
@@ -37,44 +40,46 @@ public class WallpaperReceiver extends BroadcastReceiver {
 	int currentWallpaperID;
 	String currentWallpaperCategory;
 	static ImageLoader imageLoader;
-	
+
 	@Override
 	public void onReceive(Context arg0, Intent arg1) {
 		final WallpaperManager myWallpaperManager = WallpaperManager
 				.getInstance(arg0);
-		
+
 		// Create global configuration and initialize ImageLoader
-		if (imageLoader==null) {
+		if (imageLoader == null) {
 			File cacheDir = StorageUtils.getCacheDirectory(arg0);
-	        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(arg0.getApplicationContext())
-	        	.denyCacheImageMultipleSizesInMemory()
-	        	.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-	        	.diskCache(new UnlimitedDiscCache(cacheDir))
-	        	.build();
-	        imageLoader = ImageLoader.getInstance();
-	        imageLoader.init(config);
+			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+					arg0.getApplicationContext())
+					.denyCacheImageMultipleSizesInMemory()
+					.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+					.diskCache(new UnlimitedDiscCache(cacheDir)).build();
+			imageLoader = ImageLoader.getInstance();
+			imageLoader.init(config);
 		}
-		
+
 		// Change the wallpaper
 		try {
 			String imageUri = "assets://" + getHappyImage();
 			imageLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
-			    @Override
-			    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-			    	try {
-			    		myWallpaperManager.setBitmap(loadedImage);
+				@Override
+				public void onLoadingComplete(String imageUri, View view,
+						Bitmap loadedImage) {
+					try {
+						myWallpaperManager.setBitmap(loadedImage);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-			    }
+				}
 			});
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		// Saved the current wallpaper id & category to SharedPreferences
-		SharedPreferences savedData = arg0.getSharedPreferences(HomeScreenActivity.PREFS_NAME, Context.MODE_PRIVATE);
+		SharedPreferences savedData = arg0.getSharedPreferences(
+				HomeScreenActivity.PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = savedData.edit();
 		editor.putInt(PREFS_WALLPAPER_ID, currentWallpaperID);
 		editor.putString(PREFS_WALLPAPER_CATEGORY, currentWallpaperCategory);
@@ -124,18 +129,18 @@ public class WallpaperReceiver extends BroadcastReceiver {
 		// scale the given bitmap
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth,
 				scaledHeight, false);
-		
+
 		return scaledBitmap;
 	}
 
 	public Bitmap getBitmapFromAsset(Context arg0, String strName)
 			throws IOException {
 		AssetManager assetManager = arg0.getAssets();
-		
-		//get asset and convert to bitmap
+
+		// get asset and convert to bitmap
 		InputStream istr = assetManager.open(strName);
 
-		BitmapFactory.Options options=new BitmapFactory.Options();
+		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPurgeable = true;
 		options.inInputShareable = true;
 		options.inPreferredConfig = Config.RGB_565;
@@ -149,29 +154,106 @@ public class WallpaperReceiver extends BroadcastReceiver {
 		int choice = 0;
 		String happyDir = "happy_images/";
 		String happyPath = "";
-		
-		//get random image
-		choice = random.nextInt(19) + 1;
+
+		// get random image
+		choice = random.nextInt(NUMBER_OF_WALLPAPERS) + 1;
 		happyPath = happyDir + Integer.toString(choice) + ".jpg";
-		
+
 		// Save the current wallpaper info
 		currentWallpaperID = choice;
 		currentWallpaperCategory = getHappyImageCategory(choice);
 
 		return happyPath;
 	}
-	
+
 	/**
 	 * Get the image's category based on the ID
+	 * 
 	 * @param wallpaper_id
 	 * @return
 	 */
 	public String getHappyImageCategory(int wallpaper_id) {
 		switch (wallpaper_id) {
-			case 1:
-				return "animal";
-			default:
-				return "none";
+		// animal
+		case 1:
+			return "animal";
+		case 2:
+			return "animal";
+		case 3:
+			return "animal";
+		// athlete
+		case 4:
+			return "athlete";
+		case 5:
+			return "athlete";
+		case 6:
+			return "athlete";
+		// color
+		case 7:
+			return "color";
+		case 8:
+			return "color";
+		case 9:
+			return "color";
+		// cornell
+		case 10:
+			return "cornell";
+		case 11:
+			return "cornell";
+		case 12:
+			return "cornell";
+		// couple
+		case 13:
+			return "couple";
+		case 14:
+			return "couple";
+		case 15:
+			return "couple";
+		// food
+		case 16:
+			return "food";
+		case 17:
+			return "food";
+		case 18:
+			return "food";
+		// baby
+		case 19:
+			return "baby";
+		case 20:
+			return "baby";
+		case 21:
+			return "baby";
+		// mountain
+		case 22:
+			return "mountain";
+		case 23:
+			return "mountain";
+		case 24:
+			return "mountain";
+		// nature
+		case 25:
+			return "nature";
+		case 26:
+			return "nature";
+		case 27:
+			return "nature";
+		// ocean
+		case 28:
+			return "ocean";
+		case 29:
+			return "ocean";
+		case 30:
+			return "ocean";
+		// sunflower
+		case 31:
+			return "sunflower";
+		case 32:
+			return "sunflower";
+		case 33:
+			return "sunflower";
+
+		default:
+			return "none";
 		}
 	}
 

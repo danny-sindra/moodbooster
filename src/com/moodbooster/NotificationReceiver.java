@@ -1,7 +1,5 @@
 package com.moodbooster;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,41 +7,52 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.view.View.OnClickListener;
-import android.widget.Toast;
 
-
-public class NotificationReceiver extends BroadcastReceiver
-{
+public class NotificationReceiver extends BroadcastReceiver {
 	private PendingIntent pamPendingIntent;
-	
-	@Override
-    public void onReceive(Context arg0, Intent arg1) {
-		
-		Intent pamIntent = new Intent(arg0, com.moodbooster.pam.PamActivity.class);
-		pamPendingIntent = PendingIntent.getActivity(arg0, 0, pamIntent, 0);
-				
-		
-		//set attributes for notification
-		Notification noti = new Notification.Builder(arg0)
-	    	.setContentTitle("moodbooster reminder")
-	         .setContentText("time to enter your mood")
-	         .setSmallIcon(R.drawable.moodbooster)
-	         .setLargeIcon(BitmapFactory.decodeResource(arg0.getResources(),
-                     R.drawable.moodbooster))
-             .setContentIntent(pamPendingIntent)
-             .setAutoCancel(true)
-	         .build();
-		
-		//build notification manager	    	
-	    NotificationManager mNotificationManager =
-	    		    (NotificationManager) arg0.getSystemService(Context.NOTIFICATION_SERVICE);
-	    
-	    //issue notification
-	    mNotificationManager.notify(0, noti);
-	    
-        
-    }   //end onreceive
 
+	@Override
+	public void onReceive(Context arg0, Intent arg1) {
+
+		Intent pamIntent = new Intent(arg0,
+				com.moodbooster.pam.PamActivity.class);
+		pamPendingIntent = PendingIntent.getActivity(arg0, 0, pamIntent, 0);
+
+		// set attributes for notification
+		int notifTime = arg1.getIntExtra(HomeScreenActivity.EXTRA_NOTIF, 0);
+		String notifTicker = getTimelyMessage(notifTime);
+		String notifMessage = "Time to enter your mood";
+		Notification noti = new Notification.Builder(arg0)
+				.setContentTitle(
+						arg0.getResources().getString(R.string.app_name)
+								+ " reminder")
+				.setContentText(notifMessage)
+				.setTicker(notifTicker)
+				.setSmallIcon(R.drawable.moodbooster)
+				.setLargeIcon(
+						BitmapFactory.decodeResource(arg0.getResources(),
+								R.drawable.moodbooster))
+				.setContentIntent(pamPendingIntent).setAutoCancel(true).build();
+
+		// build notification manager
+		NotificationManager mNotificationManager = (NotificationManager) arg0
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		// issue notification
+		mNotificationManager.notify(0, noti);
+
+	} // end onreceive
+
+	private String getTimelyMessage(int notifTime) {
+		if (notifTime==HomeScreenActivity.FIRST_NOTIF_HOUR) {
+			return "Howdy! it is already " + HomeScreenActivity.FIRST_NOTIF_HOUR + ":00. Let us know how do you feel today!";
+		}
+		else if (notifTime==HomeScreenActivity.SECOND_NOTIF_HOUR) {
+			return "Good evening, it is " + HomeScreenActivity.SECOND_NOTIF_HOUR + ":00 now! Time to enter your mood";
+		}
+		else {
+			return "How do you feel today? ";
+		}
+	}
 	
-}   //end AlarmReceiver class
+} // end AlarmReceiver class
