@@ -175,4 +175,4 @@ public class WallpaperReceiver extends BroadcastReceiver {
 		}
 	}
 
-} // end AlarmReceiver class
+} // end WallapaperReceiver class

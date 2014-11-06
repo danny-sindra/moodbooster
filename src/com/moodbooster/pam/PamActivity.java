@@ -63,13 +63,13 @@ public class PamActivity extends Activity implements
 		});
 
 		// Button export to storage card
-		Button button_export = (Button) findViewById(R.id.pam_export);
-		button_export.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				exportUsageData("userId");
-			}
-		});
+//		Button button_export = (Button) findViewById(R.id.pam_export);
+//		button_export.setOnClickListener(new Button.OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				exportUsageData();
+//			}
+//		});
 
 		// set up pam
 		setupPAM();
@@ -311,6 +311,7 @@ public class PamActivity extends Activity implements
 		long newRowId = MoodBoosterDbHelper.insertNewRecord(dbHelper,
 				currentWallpaperId, currentWallpaperCategory, pamScore,
 				totalScreenUnlocked);
+		exportUsageData();
 
 		// DEBUGGING
 		// MoodBoosterDbHelper.dropTable(dbHelper); //drop table
@@ -328,10 +329,10 @@ public class PamActivity extends Activity implements
 	 * 
 	 * @param userId
 	 */
-	void exportUsageData(String userId) {
+	void exportUsageData() {
 		MoodBoosterDbHelper dbHelper = new MoodBoosterDbHelper(
 				getApplicationContext());
-		MoodBoosterDbHelper.exportDbToCSV(dbHelper, userId);
+		MoodBoosterDbHelper.exportDbToCSV(dbHelper);
 		finish();
 	}
 

@@ -176,7 +176,7 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
      * @param outFileName
      * @return
      */
-    public static boolean exportDbToCSV(MoodBoosterDbHelper dbHelper, String userId) {
+    public static boolean exportDbToCSV(MoodBoosterDbHelper dbHelper) {
     	CSVWriter writer = null;
 		try 
 		{
@@ -194,8 +194,6 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
 			    		"/" + 
 	    				APP_FOLDER_NAME + 
 	    				"/" + 
-	    				userId + 
-	    				"_" + 
 	    				createdTimestamp + 
 	    				".csv"),
     				',');

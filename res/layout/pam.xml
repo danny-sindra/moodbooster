@@ -25,10 +25,10 @@
 		android:layout_height="wrap_content"
 		android:text="Load more pictures"
 		android:layout_marginTop="10dip" />
-	<Button
+	<!-- Button
 	    android:id="@+id/pam_export"
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="Export Usage Data"
-		android:layout_marginTop="10dip" />
+		android:layout_marginTop="10dip" /-->
 </LinearLayout>
