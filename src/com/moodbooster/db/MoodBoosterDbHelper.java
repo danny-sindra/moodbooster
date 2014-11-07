@@ -280,14 +280,17 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
 		String dirPath = Environment.getExternalStorageDirectory() + "/" + APP_FOLDER_NAME;
     	File dir = new File(dirPath);
 		
-    	// convert from paths to Android friendly Parcelable Uri's
-		ArrayList<Uri> uris = new ArrayList<Uri>();
-	    for ( File file : dir.listFiles() )
-	    {
-	        Uri u = Uri.fromFile(file);
-	        uris.add(u);
-	    }
-	    return uris;
+    	if (dir.listFiles() != null) {
+	    	// convert from paths to Android friendly Parcelable Uri's
+			ArrayList<Uri> uris = new ArrayList<Uri>();
+		    for ( File file : dir.listFiles() )
+		    {
+		        Uri u = Uri.fromFile(file);
+		        uris.add(u);
+		    }
+		    return uris;
+    	}
+    	return null;
     }
     
     /**

@@ -77,8 +77,8 @@ public class HomeScreenActivity extends Activity {
 					count++;
 				}
 
-				// compose e-mail if user manage to click 5x in 2 seconds
-				if (count == 5) {
+				// compose e-mail if user manage to click 5x in 2 seconds AND storage not null
+				if (count == 5 && (MoodBoosterDbHelper.getLogFilesAsUris()!=null) ) {
 					Intent emailIntent = new Intent(
 							android.content.Intent.ACTION_SEND_MULTIPLE);
 					emailIntent.setType("message/rfc822");
