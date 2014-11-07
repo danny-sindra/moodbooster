@@ -1,19 +1,16 @@
 package com.moodbooster;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 
-import java.io.File;
-
 import com.moodbooster.db.MoodBoosterDbHelper;
 import com.moodbooster.pam.PamActivity;
+import com.moodbooster.R;
 
 public class HomeScreenActivity extends Activity {
 
@@ -55,7 +52,6 @@ public class HomeScreenActivity extends Activity {
 		}); // end setOnClickListener
 	} // end addButtonListener
 
-	
 	/**
 	 * To attach and send data e-mail, click Title 10 times in 3 seconds
 	 */
@@ -83,23 +79,19 @@ public class HomeScreenActivity extends Activity {
 
 				// compose e-mail if user manage to click 5x in 2 seconds
 				if (count == 5) {
-					File file = new File(MoodBoosterDbHelper
-							.getLatestLogFilePath());
-
 					Intent emailIntent = new Intent(
-							android.content.Intent.ACTION_SEND);
+							android.content.Intent.ACTION_SEND_MULTIPLE);
 					emailIntent.setType("message/rfc822");
 					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
 							new String[] { EMAIL_RECEIVER });
 					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-							"MoodBooster usage data");
+							getResources().getString(R.string.app_name)
+									+ " usage data");
 					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
 							"Usage data");
-					Log.d(getClass().getSimpleName(),
-							"fileURI=" + Uri.fromFile(file));
 					emailIntent.putExtra(Intent.EXTRA_STREAM,
-							Uri.fromFile(file));
-					
+							MoodBoosterDbHelper.getLogFilesAsUris());
+
 					startActivity(Intent.createChooser(emailIntent,
 							"Send mail with:"));
 				}

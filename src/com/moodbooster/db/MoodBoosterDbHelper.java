@@ -13,6 +13,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -269,6 +270,25 @@ public class MoodBoosterDbHelper extends SQLiteOpenHelper {
 		}
 		return true;
 	}
+    
+    /**
+     * Return all log files as uris (attachment for sending e-mail)
+     * @return
+     */
+    public static ArrayList<Uri> getLogFilesAsUris() {
+    	// list all log files in storage folder
+		String dirPath = Environment.getExternalStorageDirectory() + "/" + APP_FOLDER_NAME;
+    	File dir = new File(dirPath);
+		
+    	// convert from paths to Android friendly Parcelable Uri's
+		ArrayList<Uri> uris = new ArrayList<Uri>();
+	    for ( File file : dir.listFiles() )
+	    {
+	        Uri u = Uri.fromFile(file);
+	        uris.add(u);
+	    }
+	    return uris;
+    }
     
     /**
      * List all files in a directory
