@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/Users/supportethnicstudies/Documents/cornell hci/courses/INFO 4130/development/.metadata/.plugins/org.eclipse.jdt.core
+698952703.index
+3253653893.index
+565328907.index
