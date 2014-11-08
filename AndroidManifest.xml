@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.moodbooster"
-    android:versionCode="4"
-    android:versionName="1.2.1" >
+    package="com.moodbetter"
+    android:versionCode="2"
+    android:versionName="1.0.2" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-        android:icon="@drawable/moodbooster"
+        android:icon="@drawable/moodbetter"
         android:label="@string/app_name" >
         
         <activity android:name=".HomeScreenActivity" >
@@ -24,14 +24,14 @@
         </activity>
         
         <activity
-            android:name="com.moodbooster.pam.PamActivity"
+            android:name="com.moodbetter.pam.PamActivity"
             android:label="@string/title_activity_main"
-            android:parentActivityName="com.moodbooster.HomeScreenActivity" >
+            android:parentActivityName="com.moodbetter.HomeScreenActivity" >
             
 	        <!-- Parent activity meta-data to support 4.0 and lower -->
 	        <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.moodbooster.HomeScreenActivity" />
+	            android:value="com.moodbetter.HomeScreenActivity" />
         </activity>
         
         <receiver android:name=".WallpaperReceiver"></receiver>
@@ -42,7 +42,7 @@
             android:enabled="true">
 	        <intent-filter>
 	            <action android:name="android.intent.action.BOOT_COMPLETED" />
-	            <action android:name="com.moodbooster.HomeScreenActivity" />
+	            <action android:name="com.moodbetter.HomeScreenActivity" />
 	        </intent-filter>
         </receiver>
         

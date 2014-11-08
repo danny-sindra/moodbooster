@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MoodBooster</string>
-    <string name="home_message1">MoodBooster</string>
+    <string name="app_name">MoodBetter</string>
+    <string name="home_message1">MoodBetter</string>
     <string name="home_message2">is running</string>
     <string name="enter_mood">enter your mood</string>
     
