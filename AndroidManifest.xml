@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-        android:icon="@drawable/moodbooster"
+        android:icon="@drawable/mood_tmp"
         android:label="@string/app_name" >
         
         <activity android:name=".HomeScreenActivity" >
